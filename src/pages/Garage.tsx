@@ -10,6 +10,8 @@ const Garage = () => {
         <Links />
         <Options />
         <div style={{ marginTop: "30px" }}>
+          <h1>Garage(num)</h1>
+          <h2>Page(num)</h2>
           <Car name="name" id="3" color="e" />
         </div>
       </main>
