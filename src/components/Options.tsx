@@ -1,18 +1,17 @@
 import styled from "@emotion/styled";
-import { Input, FormHelperText, Button } from "@mui/material";
-import React from "react";
+import { Input, Button } from "@mui/material";
 
 const Options = () => {
   return (
     <Div>
       <Form>
         <Input
-          id="creetCar"
+          id="createCar"
           aria-describedby="my-helper-text"
           placeholder="Name"
         />
         <input type="color" />
-        <FormHelperText id="my-helper-text">Select color</FormHelperText>
+        <Button variant="contained">Create</Button>
       </Form>
       <Form>
         <Input
@@ -21,12 +20,12 @@ const Options = () => {
           placeholder="Change name"
         />
         <input type="color" />
-        <FormHelperText id="my-helper-text">Select color</FormHelperText>
+        <Button variant="contained">Change</Button>
       </Form>
       <Form>
-        <Button variant="outlined">Race</Button>
-        <Button variant="outlined">Reset</Button>
-        <Button variant="outlined">+100 cars</Button>
+        <Button variant="contained">Race</Button>
+        <Button variant="contained">Reset</Button>
+        <Button variant="contained">+100 cars</Button>
       </Form>
     </Div>
   );
