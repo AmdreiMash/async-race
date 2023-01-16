@@ -1,7 +1,7 @@
 import React from "react";
+import { Route, Routes } from "react-router-dom";
 import Garage from "./pages/Garage";
 import Winners from "./pages/Winners";
-import { Route, Routes } from "react-router-dom";
 
 function App() {
   return (

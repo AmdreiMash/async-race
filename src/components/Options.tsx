@@ -1,9 +1,10 @@
-import styled from "@emotion/styled";
 import { Input, Button } from "@mui/material";
+import React from "react";
+import { DivCol, Form } from "./componentsStled";
 
-const Options = () => {
+function Options() {
   return (
-    <Div>
+    <DivCol>
       <Form>
         <Input
           id="createCar"
@@ -27,19 +28,8 @@ const Options = () => {
         <Button variant="contained">Reset</Button>
         <Button variant="contained">+100 cars</Button>
       </Form>
-    </Div>
+    </DivCol>
   );
-};
+}
 
-const Div = styled.div`
-  display: flex;
-  flex-direction: column;
-  //width: 500px;
-  gap: 10px;
-`;
-const Form = styled.form`
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-`;
 export default Options;

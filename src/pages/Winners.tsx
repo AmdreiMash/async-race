@@ -1,13 +1,13 @@
 import React from "react";
-import { Links } from "../components/links";
+import Links from "../components/links";
 
-const Winners = () => {
+function Winners() {
   return (
     <>
       <p>Победители</p>
       <Links />
     </>
   );
-};
+}
 
 export default Winners;
