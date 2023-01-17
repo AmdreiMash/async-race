@@ -8,3 +8,9 @@ export type CarProps = {
   id: string;
   color: string;
 };
+
+export type CarData = {
+  name: string;
+  id: string;
+  color: string;
+};
