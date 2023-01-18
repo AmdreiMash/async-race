@@ -9,9 +9,10 @@ import getGarageData from "../controller/getGatageData";
 function Garage() {
   const [update, setUpdate] = useState(true);
   const [cars, setCars] = useState([] as CarData[]);
+  const [selectCar, setSelectCar] = useState({} as CarData);
 
   useEffect(() => {
-    if (update === true) {
+    if (update) {
       getGarageData().then((data: CarData[]) => setCars(data));
       setUpdate(false);
     }
@@ -20,7 +21,7 @@ function Garage() {
   return (
     <main style={{ marginTop: "30px" }}>
       <Links />
-      <Options />
+      <Options onClick={() => setUpdate(true)} />
       <div style={{ marginTop: "30px" }}>
         <h1>Garage(num)</h1>
         <h2>Page(num)</h2>

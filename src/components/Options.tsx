@@ -1,8 +1,12 @@
 import { Input, Button } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
+import addCar from "../controller/addCar";
 import { DivCol, Form } from "./componentsStled";
-
-function Options() {
+//! добавить функию изменения текущей мащины
+function Options(props: { onClick: () => void }) {
+  const [newCar, setNewCar] = useState({ color: "#000000", name: "" });
+  const newCarValid = newCar.name === "";
+  const { onClick } = props;
   return (
     <DivCol>
       <Form>
@@ -10,9 +14,22 @@ function Options() {
           id="createCar"
           aria-describedby="my-helper-text"
           placeholder="Name"
+          onChange={(e) => setNewCar({ ...newCar, name: e.target.value })}
         />
-        <input type="color" />
-        <Button variant="contained">Create</Button>
+        <input
+          type="color"
+          onChange={(e) => setNewCar({ ...newCar, color: e.target.value })}
+        />
+        <Button
+          disabled={newCarValid}
+          variant="contained"
+          onClick={() => {
+            addCar(newCar);
+            onClick();
+          }}
+        >
+          Create
+        </Button>
       </Form>
       <Form>
         <Input

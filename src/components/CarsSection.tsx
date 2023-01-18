@@ -10,8 +10,9 @@ function CarsSection(props: { data: CarData[] }) {
   const cars =
     data.length > 0 ? (
       data.map((car: CarData) => (
-        <>
-          <Grid key={car.id} style={{ display: "grid" }}>
+        <div key={car.id}>
+          <p>{car.name}</p>
+          <Grid style={{ display: "grid" }}>
             <Button style={{ gridArea: "1 / 1 / 2 / 3" }} variant="contained">
               Select
             </Button>
@@ -29,8 +30,7 @@ function CarsSection(props: { data: CarData[] }) {
             <CarSvg width="100px" height="50px" fill={car.color} />
             <Img src={finish} alt="финиш" />
           </DivBorder>
-          <p>{car.name}</p>
-        </>
+        </div>
       ))
     ) : (
       <div>
