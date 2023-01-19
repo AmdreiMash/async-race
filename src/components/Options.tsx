@@ -5,6 +5,7 @@ import addCar from "../controller/addCar";
 import { CarData } from "../types/propsTypes";
 import { DivCol, Form } from "./componentsStled";
 import updateCar from "../controller/updateCar";
+import addOHCars from "../helper/addOHCars";
 //! добавить функию изменения текущей мащины
 function Options(props: {
   setUpdate: () => void;
@@ -32,9 +33,9 @@ function Options(props: {
         <Button
           disabled={newCarValid}
           variant="contained"
-          onClick={() => {
-            addCar(newCar);
-            setUpdate();
+          onClick={async () => {
+            const response = await addCar(newCar);
+            if (response) setUpdate();
             setNewCar({ name: "", color: "#000000" });
           }}
         >
@@ -63,9 +64,9 @@ function Options(props: {
         <Button
           disabled={_.isEmpty(selectedCar)}
           variant="contained"
-          onClick={() => {
-            updateCar(selectedCar);
-            setUpdate();
+          onClick={async () => {
+            const response = await updateCar(selectedCar);
+            if (response) setUpdate();
           }}
         >
           Change
@@ -74,7 +75,15 @@ function Options(props: {
       <Form>
         <Button variant="contained">Race</Button>
         <Button variant="contained">Reset</Button>
-        <Button variant="contained">+100 cars</Button>
+        <Button
+          onClick={() => {
+            const response = addOHCars();
+            if (response) setUpdate();
+          }}
+          variant="contained"
+        >
+          +100 cars
+        </Button>
       </Form>
     </DivCol>
   );

@@ -1,22 +1,20 @@
 import styled from "@emotion/styled";
 
-const Grid = styled.div`
+const CarDrive = styled.div`
   width: 300px;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(2, 1fr);
+  display: flex;
   gap: 10px;
   margin: 10px 0;
 `;
 
 const DivBorder = styled.div`
-  border-bottom: 5px dashed #000000;
+  border-bottom: 3px dashed #000000;
 `;
 
 const Img = styled.img`
   position: absolute;
-  right: 150px;
-  width: 60px;
+  right: 90px;
+  width: 35px;
 `;
 
 const DivCol = styled.div`
@@ -31,4 +29,4 @@ const Form = styled.form`
   gap: 10px;
 `;
 
-export { DivCol, Form, Img, DivBorder, Grid };
+export { DivCol, Form, Img, DivBorder, CarDrive };

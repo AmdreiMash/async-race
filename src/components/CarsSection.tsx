@@ -4,7 +4,7 @@ import { ReactComponent as CarSvg } from "../assets/car.svg";
 import finish from "../assets/finish.svg";
 import deleteCar from "../controller/deleteCar";
 import { CarData } from "../types/propsTypes";
-import { DivBorder, Grid, Img } from "./componentsStled";
+import { DivBorder, CarDrive, Img } from "./componentsStled";
 
 function CarsSection(props: {
   data: CarData[];
@@ -19,7 +19,7 @@ function CarsSection(props: {
       data.map((car: CarData) => (
         <div key={car.id}>
           <p>{car.name}</p>
-          <Grid style={{ display: "grid" }}>
+          <CarDrive>
             <Button
               onClick={() => {
                 setSelectedCar(car);
@@ -46,9 +46,9 @@ function CarsSection(props: {
             <Button style={{ gridArea: "2 / 2 / 3 / 3" }} variant="outlined">
               B
             </Button>
-          </Grid>
+          </CarDrive>
           <DivBorder>
-            <CarSvg width="100px" height="50px" fill={car.color} />
+            <CarSvg width="65px" height="30px" fill={car.color} />
             <Img src={finish} alt="finish" />
           </DivBorder>
         </div>

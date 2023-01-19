@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useState } from "react";
+import { Button } from "@mui/material";
+import { Form } from "react-router-dom";
 import Options from "../components/Options";
 import CarsSection from "../components/CarsSection";
 import Links from "../components/links";
@@ -10,6 +12,8 @@ function Garage() {
   const [update, setUpdate] = useState(true);
   const [cars, setCars] = useState([] as CarData[]);
   const [selectedCar, setSelectedCar] = useState({} as CarData);
+  const [page, setPage] = useState(1);
+  const pageButtons = cars.length < 8;
 
   useEffect(() => {
     if (update) {
@@ -17,6 +21,7 @@ function Garage() {
       setUpdate(false);
     }
   }, [update]);
+  console.log("render");
 
   return (
     <main style={{ marginTop: "30px" }}>
@@ -27,14 +32,22 @@ function Garage() {
         setSelectedCar={setSelectedCar}
       />
       <div style={{ marginTop: "30px" }}>
-        <h1>Garage(num)</h1>
-        <h2>Page(num)</h2>
+        <h1>Garage({cars.length})</h1>
+        <h2>Page({page})</h2>
         <CarsSection
           data={cars}
           setSelectedCar={setSelectedCar}
           selectedCar={selectedCar}
           setUpdate={() => setUpdate(true)}
         />
+      </div>
+      <div style={{ marginTop: "30px" }}>
+        <Button disabled={page === 1} onClick={() => setPage(page - 1)}>
+          Prev
+        </Button>
+        <Button disabled={pageButtons} onClick={() => setPage(page + 1)}>
+          Next
+        </Button>
       </div>
     </main>
   );
