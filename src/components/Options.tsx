@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import addCar from "../controller/addCar";
 import { CarData } from "../types/propsTypes";
 import { DivCol, Form } from "./componentsStled";
+import updateCar from "../controller/updateCar";
 //! добавить функию изменения текущей мащины
 function Options(props: {
   setUpdate: () => void;
@@ -59,7 +60,14 @@ function Options(props: {
             setSelectedCar({ ...selectedCar, color: e.target.value })
           }
         />
-        <Button disabled={_.isEmpty(selectedCar)} variant="contained">
+        <Button
+          disabled={_.isEmpty(selectedCar)}
+          variant="contained"
+          onClick={() => {
+            updateCar(selectedCar);
+            setUpdate();
+          }}
+        >
           Change
         </Button>
       </Form>
