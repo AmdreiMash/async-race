@@ -22,7 +22,6 @@ function CarsSection(props: {
           <Grid style={{ display: "grid" }}>
             <Button
               onClick={() => {
-                console.log(car);
                 setSelectedCar(car);
               }}
               style={{ gridArea: "1 / 1 / 2 / 3" }}
