@@ -13,14 +13,17 @@ function Garage() {
   const [cars, setCars] = useState([] as CarData[]);
   const [selectedCar, setSelectedCar] = useState({} as CarData);
   const [page, setPage] = useState(1);
-  const pageButtons = cars.length < 8;
+  const [totalCount, setTotaCount] = useState(0);
 
   useEffect(() => {
     if (update) {
-      getGarageData().then((data: CarData[]) => setCars(data));
+      getGarageData(page).then((data) => {
+        setCars(data.json);
+        setTotaCount(data.totalCount);
+      });
       setUpdate(false);
     }
-  }, [update]);
+  }, [update, page]);
   console.log("render");
 
   return (
@@ -32,8 +35,9 @@ function Garage() {
         setSelectedCar={setSelectedCar}
       />
       <div style={{ marginTop: "30px" }}>
-        <h1>Garage({cars.length})</h1>
-        <h2>Page({page})</h2>
+        <h3>
+          Garage({totalCount}) Page({page})
+        </h3>
         <CarsSection
           data={cars}
           setSelectedCar={setSelectedCar}
@@ -42,10 +46,22 @@ function Garage() {
         />
       </div>
       <div style={{ marginTop: "30px" }}>
-        <Button disabled={page === 1} onClick={() => setPage(page - 1)}>
+        <Button
+          disabled={page === 1}
+          onClick={() => {
+            setPage(page - 1);
+            setUpdate(true);
+          }}
+        >
           Prev
         </Button>
-        <Button disabled={pageButtons} onClick={() => setPage(page + 1)}>
+        <Button
+          disabled={totalCount < 8 || totalCount <= 7 * page}
+          onClick={() => {
+            setPage(page + 1);
+            setUpdate(true);
+          }}
+        >
           Next
         </Button>
       </div>

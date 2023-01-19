@@ -14,3 +14,8 @@ export type CarData = {
   id: string;
   color: string;
 };
+
+export type GetCarsResponse = {
+  data: CarData[];
+  totalCount: number;
+};

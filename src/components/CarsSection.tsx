@@ -18,7 +18,6 @@ function CarsSection(props: {
     data.length > 0 ? (
       data.map((car: CarData) => (
         <div key={car.id}>
-          <p>{car.name}</p>
           <CarDrive>
             <Button
               onClick={() => {
@@ -46,6 +45,7 @@ function CarsSection(props: {
             <Button style={{ gridArea: "2 / 2 / 3 / 3" }} variant="outlined">
               B
             </Button>
+            <span>{car.name}</span>
           </CarDrive>
           <DivBorder>
             <CarSvg width="65px" height="30px" fill={car.color} />
