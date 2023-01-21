@@ -19,3 +19,8 @@ export type GetCarsResponse = {
   data: CarData[];
   totalCount: number;
 };
+
+export type EnginResponse = {
+  velocity: number;
+  distance: number;
+};
