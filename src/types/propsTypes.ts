@@ -13,6 +13,7 @@ export type CarData = {
   name: string;
   id: string;
   color: string;
+  status?: string;
 };
 
 export type GetCarsResponse = {
