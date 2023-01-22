@@ -29,7 +29,6 @@ function CarsSection(props: {
         <p>Empty...</p>
       </div>
     );
-
   return <section>{cars}</section>;
 }
 

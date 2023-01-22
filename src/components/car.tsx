@@ -1,4 +1,5 @@
-import React, { useRef } from "react";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import React, { useRef, useState } from "react";
 import { Button } from "@mui/material";
 import { CarData } from "../types/propsTypes";
 import { DivBorder, CarDrive, Img } from "./componentsStled";
@@ -8,6 +9,7 @@ import deleteCar from "../controller/deleteCar";
 import startStopEngine from "../controller/startStopEngine";
 import getSpead from "../helper/getSpead";
 import "./animation.css";
+import switchEngine from "../controller/switchEngine";
 
 function Car(props: {
   race: boolean;
@@ -17,6 +19,7 @@ function Car(props: {
   selectedCar: CarData;
   setUpdate: () => void;
 }) {
+  const [carUP, togleUP] = useState(true);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { screenWidth, car, setSelectedCar, selectedCar, setUpdate, race } =
     props;
@@ -25,25 +28,40 @@ function Car(props: {
     status: "stopped",
     spead: "10000ms",
     move: "",
+    pause: "running",
   });
-
-  const { status, spead, move } = state.current;
+  const inRace = useRef(false);
+  const { status, spead, move, pause } = state.current;
   async function start() {
     const response = await startStopEngine(car.id, "started");
     const responseSpread = getSpead(response, screenWidth);
     state.current = {
+      ...state.current,
       status: "started",
       move: "move",
       spead: responseSpread,
     };
     setUpdate();
+    const EnginResponse = await switchEngine(car.id);
+    if (!EnginResponse) {
+      state.current = {
+        status: "started",
+        move: "move",
+        spead: responseSpread,
+        pause: "paused",
+      };
+      togleUP(true);
+    }
   }
   async function stop() {
     await startStopEngine(car.id, "stopped");
     state.current = { ...state.current, status: "stopped", move: "" };
-    setUpdate();
+    togleUP(false);
   }
-
+  if (race && !inRace.current) {
+    inRace.current = true;
+    start();
+  }
   return (
     <div>
       <CarDrive>
@@ -68,6 +86,7 @@ function Car(props: {
           Remove
         </Button>
         <Button
+          className="aButton"
           disabled={status !== "stopped"}
           onClick={async () => {
             start();
@@ -95,7 +114,7 @@ function Car(props: {
           style={{
             animationName: `${move}`,
             animationDuration: `${spead}`,
-            animationPlayState: "running",
+            animationPlayState: `${pause}`,
           }}
           width="65px"
           height="30px"

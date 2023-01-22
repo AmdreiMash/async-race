@@ -16,6 +16,8 @@ function Options(props: {
   const [newCar, setNewCar] = useState({ color: "#000000", name: "" });
   const newCarValid = newCar.name === "";
   const { setUpdate, selectedCar, setSelectedCar, toggleRace } = props;
+  const aButtons = document.querySelectorAll(".aButton");
+  console.log(aButtons);
   return (
     <DivCol>
       <Form>
@@ -93,5 +95,4 @@ function Options(props: {
     </DivCol>
   );
 }
-
 export default Options;
