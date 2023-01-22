@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useState, useEffect } from "react";
+import React, { useRef } from "react";
 import { Button } from "@mui/material";
 import { CarData } from "../types/propsTypes";
 import { DivBorder, CarDrive, Img } from "./componentsStled";
@@ -8,19 +7,42 @@ import finish from "../assets/finish.svg";
 import deleteCar from "../controller/deleteCar";
 import startStopEngine from "../controller/startStopEngine";
 import getSpead from "../helper/getSpead";
+import "./animation.css";
 
 function Car(props: {
+  race: boolean;
   car: CarData;
   screenWidth: number;
   setSelectedCar: React.Dispatch<React.SetStateAction<CarData>>;
   selectedCar: CarData;
   setUpdate: () => void;
 }) {
-  const { screenWidth, car, setSelectedCar, selectedCar, setUpdate } = props;
-  const [status, setStatus] = useState("started");
-  const [spead, setSpead] = useState(0);
-  console.log(spead);
-  const [position, setPosition] = useState(0);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { screenWidth, car, setSelectedCar, selectedCar, setUpdate, race } =
+    props;
+
+  const state = useRef({
+    status: "stopped",
+    spead: "10000ms",
+    move: "",
+  });
+
+  const { status, spead, move } = state.current;
+  async function start() {
+    const response = await startStopEngine(car.id, "started");
+    const responseSpread = getSpead(response, screenWidth);
+    state.current = {
+      status: "started",
+      move: "move",
+      spead: responseSpread,
+    };
+    setUpdate();
+  }
+  async function stop() {
+    await startStopEngine(car.id, "stopped");
+    state.current = { ...state.current, status: "stopped", move: "" };
+    setUpdate();
+  }
 
   return (
     <div>
@@ -46,10 +68,9 @@ function Car(props: {
           Remove
         </Button>
         <Button
+          disabled={status !== "stopped"}
           onClick={async () => {
-            const response = await startStopEngine(car.id, status);
-            setStatus("stopped");
-            setSpead(getSpead(response, screenWidth));
+            start();
           }}
           style={{ gridArea: "2 / 1 / 3 / 2" }}
           variant="outlined"
@@ -57,8 +78,10 @@ function Car(props: {
           A
         </Button>
         <Button
-          onClick={() => setStatus("started")}
-          disabled={status !== "stopped"}
+          onClick={async () => {
+            stop();
+          }}
+          disabled={status === "stopped"}
           style={{ gridArea: "2 / 2 / 3 / 3" }}
           variant="outlined"
         >
@@ -68,10 +91,15 @@ function Car(props: {
       </CarDrive>
       <DivBorder>
         <CarSvg
+          className="car"
+          style={{
+            animationName: `${move}`,
+            animationDuration: `${spead}`,
+            animationPlayState: "running",
+          }}
           width="65px"
           height="30px"
           fill={car.color}
-          style={{ position: "relative", left: `${position}px` }}
         />
         <Img src={finish} alt="finish" />
       </DivBorder>

@@ -14,6 +14,7 @@ function Garage() {
   const [selectedCar, setSelectedCar] = useState({} as CarData);
   const [page, setPage] = useState(1);
   const [totalCount, setTotaCount] = useState(0);
+  const [race, toggleRace] = useState(false);
 
   useEffect(() => {
     if (update) {
@@ -24,12 +25,12 @@ function Garage() {
       setUpdate(false);
     }
   }, [update, page]);
-  console.log("render");
 
   return (
     <main style={{ marginTop: "30px" }}>
       <Links />
       <Options
+        toggleRace={() => toggleRace(!race)}
         selectedCar={selectedCar}
         setUpdate={() => setUpdate(true)}
         setSelectedCar={setSelectedCar}
@@ -39,6 +40,7 @@ function Garage() {
           Garage({totalCount}) Page({page})
         </h3>
         <CarsSection
+          race={race}
           data={cars}
           setSelectedCar={setSelectedCar}
           selectedCar={selectedCar}

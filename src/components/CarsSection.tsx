@@ -3,18 +3,19 @@ import { CarData } from "../types/propsTypes";
 import Car from "./car";
 
 function CarsSection(props: {
+  race: boolean;
   data: CarData[];
   setSelectedCar: React.Dispatch<React.SetStateAction<CarData>>;
   selectedCar: CarData;
   setUpdate: () => void;
 }) {
-  const { data, selectedCar, setUpdate, setSelectedCar } = props;
+  const { data, selectedCar, setUpdate, setSelectedCar, race } = props;
   const screenWidth = window.screen.width - 85;
-  console.log(screenWidth);
   const cars =
     data.length > 0 ? (
       data.map((car: CarData) => (
         <Car
+          race={race}
           screenWidth={screenWidth}
           key={car.id}
           car={car}
