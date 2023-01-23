@@ -3,7 +3,7 @@ import { Storge } from "../types/propsTypes";
 const storge: Storge = {
   page: 1,
   create: {
-    name: "non",
+    name: "",
     color: "#000000",
   },
   selectCar: 0,

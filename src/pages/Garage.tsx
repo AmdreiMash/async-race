@@ -39,14 +39,13 @@ function Garage() {
       setUpdate(false);
     }
   }, [update, page]);
-  useEffect(() => {
-    if (first !== 0) {
-      console.log(first);
-    }
-  }, [first, race]);
+  // useEffect(() => {
+  //  if (first !== 0) {
+  //    const 1;
+  //  }
+  // }, [first, race]);
   const mesage = first === 0 ? "none" : "block";
   const firstCar = cars.find((car) => +car.id === first) || { name: "" };
-  console.log(cars.find((car) => car.id === String(first)));
   return (
     <main style={{ marginTop: "30px" }}>
       <h1
