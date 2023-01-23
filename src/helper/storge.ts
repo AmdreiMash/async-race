@@ -14,6 +14,11 @@ const storge: Storge = {
   },
   first: 0,
   race: false,
+  winers: {
+    page: 1,
+    sort: "id",
+    order: "ASC",
+  },
 };
 
 function setStorge(obj: typeof storge) {

@@ -41,4 +41,15 @@ export type Storge = {
   };
   first: number;
   race: boolean;
+  winers: {
+    page: number;
+    sort: string;
+    order: string;
+  };
+};
+
+export type WinnerData = {
+  id: number;
+  wins: number;
+  time: number;
 };
