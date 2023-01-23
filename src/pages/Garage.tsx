@@ -15,6 +15,7 @@ function Garage() {
   const [page, setPage] = useState(1);
   const [totalCount, setTotaCount] = useState(0);
   const [race, toggleRace] = useState(false);
+  const [first, setFirst] = useState(0);
 
   useEffect(() => {
     if (update) {
@@ -25,12 +26,34 @@ function Garage() {
       setUpdate(false);
     }
   }, [update, page]);
-
+  useEffect(() => {
+    if (first !== 0) {
+      console.log(first);
+    }
+  }, [first, race]);
+  const mesage = first === 0 ? "none" : "block";
+  const firstCar = cars.find((car) => +car.id === first) || { name: "" };
+  console.log(cars.find((car) => car.id === String(first)));
   return (
     <main style={{ marginTop: "30px" }}>
+      <h1
+        style={{
+          fontSize: "40px",
+          zIndex: "10",
+          top: "50%",
+          left: "30%",
+          position: "absolute",
+          display: `${mesage}`,
+        }}
+      >
+        Winner is {firstCar.name}
+      </h1>
       <Links />
       <Options
-        toggleRace={() => toggleRace(!race)}
+        toggleRace={(val: boolean) => {
+          toggleRace(val);
+          setFirst(0);
+        }}
         selectedCar={selectedCar}
         setUpdate={() => setUpdate(true)}
         setSelectedCar={setSelectedCar}
@@ -40,6 +63,8 @@ function Garage() {
           Garage({totalCount}) Page({page})
         </h3>
         <CarsSection
+          first={first}
+          setFirst={(id: number) => setFirst(id)}
           race={race}
           data={cars}
           setSelectedCar={setSelectedCar}
@@ -53,6 +78,7 @@ function Garage() {
           onClick={() => {
             setPage(page - 1);
             setUpdate(true);
+            toggleRace(false);
           }}
         >
           Prev
@@ -62,6 +88,7 @@ function Garage() {
           onClick={() => {
             setPage(page + 1);
             setUpdate(true);
+            toggleRace(false);
           }}
         >
           Next

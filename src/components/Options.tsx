@@ -8,7 +8,7 @@ import updateCar from "../controller/updateCar";
 import addOHCars from "../helper/addOHCars";
 //! добавить функию изменения текущей мащины
 function Options(props: {
-  toggleRace: () => void;
+  toggleRace: (val: boolean) => void;
   setUpdate: () => void;
   selectedCar: CarData;
   setSelectedCar: React.Dispatch<React.SetStateAction<CarData>>;
@@ -16,8 +16,6 @@ function Options(props: {
   const [newCar, setNewCar] = useState({ color: "#000000", name: "" });
   const newCarValid = newCar.name === "";
   const { setUpdate, selectedCar, setSelectedCar, toggleRace } = props;
-  const aButtons = document.querySelectorAll(".aButton");
-  console.log(aButtons);
   return (
     <DivCol>
       <Form>
@@ -76,10 +74,10 @@ function Options(props: {
         </Button>
       </Form>
       <Form>
-        <Button onClick={() => toggleRace()} variant="contained">
+        <Button onClick={() => toggleRace(true)} variant="contained">
           Race
         </Button>
-        <Button onClick={() => toggleRace()} variant="contained">
+        <Button onClick={() => toggleRace(false)} variant="contained">
           Reset
         </Button>
         <Button

@@ -12,6 +12,8 @@ import "./animation.css";
 import switchEngine from "../controller/switchEngine";
 
 function Car(props: {
+  first: number;
+  setFirst: (id: number) => void;
   race: boolean;
   car: CarData;
   screenWidth: number;
@@ -21,46 +23,69 @@ function Car(props: {
 }) {
   const [carUP, togleUP] = useState(true);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { screenWidth, car, setSelectedCar, selectedCar, setUpdate, race } =
-    props;
+  const {
+    screenWidth,
+    car,
+    setSelectedCar,
+    selectedCar,
+    setUpdate,
+    race,
+    first,
+    setFirst,
+  } = props;
 
   const state = useRef({
     status: "stopped",
-    spead: "10000ms",
+    spead: "100ms",
     move: "",
     pause: "running",
   });
   const inRace = useRef(false);
   const { status, spead, move, pause } = state.current;
+
   async function start() {
     const response = await startStopEngine(car.id, "started");
-    const responseSpread = getSpead(response, screenWidth);
+    let responseSpread = getSpead(response, screenWidth);
     state.current = {
       ...state.current,
       status: "started",
       move: "move",
       spead: responseSpread,
     };
-    setUpdate();
+    togleUP(!carUP);
     const EnginResponse = await switchEngine(car.id);
     if (!EnginResponse) {
       state.current = {
         status: "started",
         move: "move",
-        spead: responseSpread,
+        spead: "0",
         pause: "paused",
       };
-      togleUP(true);
+      togleUP(!carUP);
+      inRace.current = true;
+      responseSpread = await startStopEngine(car.id, "stopped");
     }
   }
+
   async function stop() {
-    await startStopEngine(car.id, "stopped");
-    state.current = { ...state.current, status: "stopped", move: "" };
-    togleUP(false);
+    const responseSpread = await startStopEngine(car.id, "stopped");
+    state.current = {
+      ...state.current,
+      status: "stopped",
+      move: "",
+      spead: responseSpread,
+      pause: "running",
+    };
+    inRace.current = false;
+    togleUP(!carUP);
   }
+
   if (race && !inRace.current) {
     inRace.current = true;
     start();
+  }
+  if (!race && inRace.current) {
+    stop();
   }
   return (
     <div>
@@ -110,6 +135,16 @@ function Car(props: {
       </CarDrive>
       <DivBorder>
         <CarSvg
+          onAnimationEnd={async () => {
+            if (first === 0 && race) {
+              setFirst(+car.id);
+            }
+            const responseSpead = await startStopEngine(car.id, "stopped");
+            state.current = {
+              ...state.current,
+              spead: responseSpead,
+            };
+          }}
           className="car"
           style={{
             animationName: `${move}`,
