@@ -7,15 +7,28 @@ import CarsSection from "../components/CarsSection";
 import Links from "../components/links";
 import { CarData } from "../types/propsTypes";
 import getGarageData from "../controller/getGatageData";
+import { getStorge, storge, setStorge } from "../helper/storge";
 
 function Garage() {
+  getStorge();
   const [update, setUpdate] = useState(true);
   const [cars, setCars] = useState([] as CarData[]);
-  const [selectedCar, setSelectedCar] = useState({} as CarData);
-  const [page, setPage] = useState(1);
+  const [selectedCar, setSelectedCar] = useState(storge.change);
+  const [page, setPage] = useState(storge.page);
   const [totalCount, setTotaCount] = useState(0);
-  const [race, toggleRace] = useState(false);
-  const [first, setFirst] = useState(0);
+  const [race, toggleRace] = useState(storge.race);
+  const [first, setFirst] = useState(storge.first);
+
+  useEffect(() => {
+    const up = {
+      ...storge,
+      race,
+      first,
+      change: selectedCar,
+      page,
+    };
+    setStorge(up);
+  }, [selectedCar, page, race, first]);
 
   useEffect(() => {
     if (update) {
@@ -67,7 +80,13 @@ function Garage() {
           setFirst={(id: number) => setFirst(id)}
           race={race}
           data={cars}
-          setSelectedCar={setSelectedCar}
+          setSelectedCar={(val: CarData) => {
+            if (val.id === selectedCar.id) {
+              setSelectedCar({ id: "0", name: "", color: "#000000" });
+            } else {
+              setSelectedCar(val);
+            }
+          }}
           selectedCar={selectedCar}
           setUpdate={() => setUpdate(true)}
         />
@@ -79,6 +98,7 @@ function Garage() {
             setPage(page - 1);
             setUpdate(true);
             toggleRace(false);
+            setSelectedCar({ id: "0", name: "", color: "#000000" });
           }}
         >
           Prev
@@ -89,6 +109,7 @@ function Garage() {
             setPage(page + 1);
             setUpdate(true);
             toggleRace(false);
+            setSelectedCar({ id: "0", name: "", color: "#000000" });
           }}
         >
           Next

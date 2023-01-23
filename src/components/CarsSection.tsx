@@ -7,7 +7,7 @@ function CarsSection(props: {
   setFirst: (id: number) => void;
   race: boolean;
   data: CarData[];
-  setSelectedCar: React.Dispatch<React.SetStateAction<CarData>>;
+  setSelectedCar: (val: CarData) => void;
   selectedCar: CarData;
   setUpdate: () => void;
 }) {

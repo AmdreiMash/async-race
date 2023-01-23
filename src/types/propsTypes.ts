@@ -25,3 +25,20 @@ export type EnginResponse = {
   velocity: number;
   distance: number;
 };
+
+export type Storge = {
+  [key: string]: unknown;
+  page: number;
+  create: {
+    name: string;
+    color: string;
+  };
+  selectCar: number;
+  change: {
+    id: string;
+    name: string;
+    color: string;
+  };
+  first: number;
+  race: boolean;
+};

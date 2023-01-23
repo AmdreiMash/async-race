@@ -10,14 +10,14 @@ import startStopEngine from "../controller/startStopEngine";
 import getSpead from "../helper/getSpead";
 import "./animation.css";
 import switchEngine from "../controller/switchEngine";
-
+//! Сделать что бы машинки после гонки можно было возвращать по одной.
 function Car(props: {
   first: number;
   setFirst: (id: number) => void;
   race: boolean;
   car: CarData;
   screenWidth: number;
-  setSelectedCar: React.Dispatch<React.SetStateAction<CarData>>;
+  setSelectedCar: (val: CarData) => void;
   selectedCar: CarData;
   setUpdate: () => void;
 }) {
@@ -143,7 +143,9 @@ function Car(props: {
             state.current = {
               ...state.current,
               spead: responseSpead,
+              move: "",
             };
+            inRace.current = false;
           }}
           className="car"
           style={{

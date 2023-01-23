@@ -1,21 +1,31 @@
 import { Input, Button } from "@mui/material";
-import _ from "lodash";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import addCar from "../controller/addCar";
 import { CarData } from "../types/propsTypes";
 import { DivCol, Form } from "./componentsStled";
 import updateCar from "../controller/updateCar";
 import addOHCars from "../helper/addOHCars";
+import { storge, setStorge } from "../helper/storge";
 //! добавить функию изменения текущей мащины
+
 function Options(props: {
   toggleRace: (val: boolean) => void;
   setUpdate: () => void;
   selectedCar: CarData;
   setSelectedCar: React.Dispatch<React.SetStateAction<CarData>>;
 }) {
-  const [newCar, setNewCar] = useState({ color: "#000000", name: "" });
+  const [newCar, setNewCar] = useState(storge.create);
   const newCarValid = newCar.name === "";
   const { setUpdate, selectedCar, setSelectedCar, toggleRace } = props;
+
+  useEffect(() => {
+    const up = {
+      ...storge,
+      create: newCar,
+    };
+    setStorge(up);
+  }, [newCar]);
+
   return (
     <DivCol>
       <Form>
@@ -45,7 +55,7 @@ function Options(props: {
       </Form>
       <Form>
         <Input
-          disabled={_.isEmpty(selectedCar)}
+          disabled={selectedCar.name === ""}
           id="changeCar"
           aria-describedby="my-helper-text"
           placeholder="Change name"
@@ -55,7 +65,7 @@ function Options(props: {
           }
         />
         <input
-          disabled={_.isEmpty(selectedCar)}
+          disabled={selectedCar.name === ""}
           type="color"
           value={selectedCar.color || "#000000"}
           onChange={(e) =>
@@ -63,7 +73,7 @@ function Options(props: {
           }
         />
         <Button
-          disabled={_.isEmpty(selectedCar)}
+          disabled={selectedCar.name === ""}
           variant="contained"
           onClick={async () => {
             const response = await updateCar(selectedCar);
