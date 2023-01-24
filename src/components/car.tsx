@@ -142,7 +142,6 @@ function Car(props: {
             if (first === 0 && race) {
               setFirst(+car.id);
               setWinner(car.id, +spead / 1000);
-              console.log(spead);
             }
             const responseSpead = await startStopEngine(car.id, "stopped");
             state.current = {
