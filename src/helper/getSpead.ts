@@ -4,7 +4,7 @@ const getSpead = (
   screenWidth: number
 ) => {
   const time = Math.floor(response.distance / response.velocity / 1.5);
-  return `${time}ms`;
+  return `${time}`;
 };
 
 export default getSpead;

@@ -15,9 +15,10 @@ function WinnerCar(props: { car: WinnerData; key: number; order: number }) {
   ) : (
     <div
       id={String(key)}
-      style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)" }}
+      style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)" }}
     >
       <p>{order}</p>
+      <p>{id}</p>
       <CarSvg width="60px" height="40px" fill={carData.color} />
       <p>{carData.name}</p>
       <p>{wins}</p>

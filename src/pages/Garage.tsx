@@ -16,8 +16,8 @@ function Garage() {
   const [selectedCar, setSelectedCar] = useState(storge.change);
   const [page, setPage] = useState(storge.page);
   const [totalCount, setTotaCount] = useState(0);
-  const [race, toggleRace] = useState(storge.race);
-  const [first, setFirst] = useState(storge.first);
+  const [race, toggleRace] = useState(false);
+  const [first, setFirst] = useState(0);
 
   useEffect(() => {
     const up = {
@@ -39,11 +39,6 @@ function Garage() {
       setUpdate(false);
     }
   }, [update, page]);
-  // useEffect(() => {
-  //  if (first !== 0) {
-  //    const 1;
-  //  }
-  // }, [first, race]);
   const mesage = first === 0 ? "none" : "block";
   const firstCar = cars.find((car) => +car.id === first) || { name: "" };
   return (
@@ -95,9 +90,10 @@ function Garage() {
           disabled={page === 1}
           onClick={() => {
             setPage(page - 1);
-            setUpdate(true);
             toggleRace(false);
             setSelectedCar({ id: "0", name: "", color: "#000000" });
+            setFirst(0);
+            setUpdate(true);
           }}
         >
           Prev
@@ -106,9 +102,10 @@ function Garage() {
           disabled={totalCount < 8 || totalCount <= 7 * page}
           onClick={() => {
             setPage(page + 1);
-            setUpdate(true);
             toggleRace(false);
             setSelectedCar({ id: "0", name: "", color: "#000000" });
+            setFirst(0);
+            setUpdate(true);
           }}
         >
           Next

@@ -10,7 +10,9 @@ import startStopEngine from "../controller/startStopEngine";
 import getSpead from "../helper/getSpead";
 import "./animation.css";
 import switchEngine from "../controller/switchEngine";
-//! Сделать что бы машинки после гонки можно было возвращать по одной.
+import setWinner from "../controller/setWinner";
+import deleteWinner from "../controller/deleteWinner";
+
 function Car(props: {
   first: number;
   setFirst: (id: number) => void;
@@ -36,7 +38,7 @@ function Car(props: {
 
   const state = useRef({
     status: "stopped",
-    spead: "100ms",
+    spead: "100",
     move: "",
     pause: "running",
   });
@@ -105,6 +107,7 @@ function Car(props: {
           variant="contained"
           onClick={() => {
             deleteCar(car.id);
+            deleteWinner(car.id);
             setUpdate();
           }}
         >
@@ -138,19 +141,22 @@ function Car(props: {
           onAnimationEnd={async () => {
             if (first === 0 && race) {
               setFirst(+car.id);
+              setWinner(car.id, +spead / 1000);
+              console.log(spead);
             }
             const responseSpead = await startStopEngine(car.id, "stopped");
             state.current = {
               ...state.current,
               spead: responseSpead,
               move: "",
+              status: "stopped",
             };
             inRace.current = false;
           }}
           className="car"
           style={{
             animationName: `${move}`,
-            animationDuration: `${spead}`,
+            animationDuration: `${spead}ms`,
             animationPlayState: `${pause}`,
           }}
           width="65px"
