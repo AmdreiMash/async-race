@@ -3,7 +3,7 @@ import addCar from "../controller/addCar";
 import { brands, model } from "./constsnts";
 
 function addOHCars() {
-  for (let i = 0; i < 99; i += 1) {
+  for (let i = 0; i < 100; i += 1) {
     const name = `${brands[_.random(brands.length - 1)]} ${
       model[_.random(model.length - 1)]
     }`;

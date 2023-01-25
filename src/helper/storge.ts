@@ -22,6 +22,7 @@ const storge: Storge = {
 };
 
 function setStorge(obj: typeof storge) {
+  Object.assign(storge, obj);
   localStorage.setItem("storge", JSON.stringify(obj));
 }
 
