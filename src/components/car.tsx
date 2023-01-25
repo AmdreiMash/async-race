@@ -46,27 +46,31 @@ function Car(props: {
   const { status, spead, move, pause } = state.current;
 
   async function start() {
-    const response = await startStopEngine(car.id, "started");
-    let responseSpread = getSpead(response, screenWidth);
-    state.current = {
-      ...state.current,
-      status: "started",
-      move: "move",
-      spead: responseSpread,
-    };
-    togleUP(!carUP);
-    const EnginResponse = await switchEngine(car.id);
-    if (!EnginResponse) {
-      state.current = {
-        status: "started",
-        move: "move",
-        spead: "0",
-        pause: "paused",
-      };
-      togleUP(!carUP);
-      inRace.current = true;
-      responseSpread = await startStopEngine(car.id, "stopped");
-    }
+    await startStopEngine(car.id, "started")
+      .then((response) => {
+        const responseSpead = getSpead(response, screenWidth);
+        state.current = {
+          ...state.current,
+          status: "started",
+          move: "move",
+          spead: responseSpead,
+        };
+        togleUP(!carUP);
+      })
+      .then(() => switchEngine(car.id))
+      .then((EnginResponse) => {
+        if (!EnginResponse) {
+          state.current = {
+            ...state.current,
+            status: "started",
+            move: "move",
+            pause: "paused",
+          };
+          togleUP(carUP);
+          startStopEngine(car.id, "stopped");
+          inRace.current = true;
+        }
+      });
   }
 
   async function stop() {
