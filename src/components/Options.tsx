@@ -6,7 +6,6 @@ import { DivCol, Form } from "./componentsStled";
 import updateCar from "../controller/updateCar";
 import addOHCars from "../helper/addOHCars";
 import { storge, setStorge } from "../helper/storge";
-//! добавить функию изменения текущей мащины
 
 function Options(props: {
   toggleRace: (val: boolean) => void;
